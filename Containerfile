@@ -36,7 +36,7 @@ ARG SOURCE_IMAGE="bazzite"
 ARG SOURCE_SUFFIX="-nvidia"
 
 ## FEDORA_VERSION arg must be a version built by ublue: eg, 39 or 40
-ARG FEDORA_VERSION="39"
+ARG FEDORA_VERSION="40"
 
 
 ### 2. SOURCE IMAGE
@@ -52,7 +52,12 @@ COPY build.sh /tmp/build.sh
 
 RUN mkdir -p /var/lib/alternatives && \
     /tmp/build.sh && \
-    ostree container commit
+    ostree container commit \
+    rpm-ostree uninstall \
+        lutris \
+##    rpm-ostree install \
+##       package \
+
 ## NOTES:
 # - /var/lib/alternatives is required to prevent failure with some RPM installs
 # - All RUN commands must end with ostree container commit
